@@ -8,6 +8,7 @@ public:
     Tokenizer();
     std::vector<int> tokenize(const std::string& sentence) const;
     std::string detokenize(const std::vector<int>& tokens) const;
+    int unk_id() const;
 
 private:
     std::unordered_map<std::string, int> word_to_index;

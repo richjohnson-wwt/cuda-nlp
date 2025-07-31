@@ -7,7 +7,7 @@ Tokenizer::Tokenizer() {
 
 void Tokenizer::initialize_vocab() {
     std::vector<std::string> vocab = {
-        "the", "cat", "sat", "on", "mat", "dog", "ran", "to", "a", "feline", "rested", "rug", "[UNK]"
+        "work", "the", "cat", "is", "sat", "on", "mat", "place", "dog", "ran", "to", "WWT", "a", "feline", "great", "rested", "rug", "[UNK]"
     };
     for (size_t i = 0; i < vocab.size(); ++i) {
         word_to_index[vocab[i]] = static_cast<int>(i);
@@ -39,4 +39,8 @@ std::string Tokenizer::detokenize(const std::vector<int>& tokens) const {
             oss << "[UNK] ";
     }
     return oss.str();
+}
+
+int Tokenizer::unk_id() const {
+    return word_to_index.at("[UNK]");
 }

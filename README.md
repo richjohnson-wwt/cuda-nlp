@@ -21,6 +21,10 @@
     cmake ../.. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug
     cmake --build .
 
-    ./src/cuda-nlp
-    ./test/test_nlp
+    Train the model with (input sentence) (target):
+
+    ./src/main "the dog is" "great"
+    ./src/main "WWT is a great place to" "work"
+
+    ./test/test_runner
     ctest
