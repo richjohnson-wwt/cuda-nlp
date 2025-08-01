@@ -24,25 +24,19 @@ void matmul(const float *A, const float *B, float *C, int M, int N, int K)
     cudaDeviceSynchronize();
 }
 
+// Backward compatibility wrapper for existing main.cu
+void launch_matmul(const float *A, const float *B, float *C, int M, int N, int K)
+{
+    matmul(A, B, C, M, N, K);
+}
+
 __global__ void softmax_2d_kernel(float *matrix, int rows, int cols)
 {
     int row = blockIdx.x;
     if (row >= rows)
         return;
 
-    float max_val = -1e20;
-    for (int i = 0; i < cols; ++i)
-        max_val = fmaxf(max_val, matrix[row * cols + i]);
-
-    float sum = 0.0f;
-    for (int i = 0; i < cols; ++i)
-    {
-        matrix[row * cols + i] = softmax_exp(matrix[row * cols + i], max_val);
-        sum += matrix[row * cols + i];
-    }
-
-    for (int i = 0; i < cols; ++i)
-        matrix[row * cols + i] /= sum;
+    my_softmax_exp(matrix, row, cols);
 }
 
 void softmax_2d(float *matrix, int rows, int cols)

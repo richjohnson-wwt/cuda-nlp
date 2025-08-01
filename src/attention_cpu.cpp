@@ -15,27 +15,16 @@ void matmul(const float *A, const float *B, float *C, int M, int N, int K) {
     }
 }
 
+// Backward compatibility wrapper for existing main.cu
+void launch_matmul(const float *A, const float *B, float *C, int M, int N, int K) {
+    matmul(A, B, C, M, N, K);
+}
+
 void softmax_2d(float *matrix, int rows, int cols) {
     // std::cout << "Running softmax on CPU" << std::endl;
     
     for (int row = 0; row < rows; ++row) {
-        // Find max value in the row for numerical stability
-        float max_val = -1e20f;
-        for (int i = 0; i < cols; ++i) {
-            max_val = std::max(max_val, matrix[row * cols + i]);
-        }
-        
-        // Compute exponentials and sum
-        float sum = 0.0f;
-        for (int i = 0; i < cols; ++i) {
-            matrix[row * cols + i] = softmax_exp(matrix[row * cols + i], max_val);
-            sum += matrix[row * cols + i];
-        }
-        
-        // Normalize
-        for (int i = 0; i < cols; ++i) {
-            matrix[row * cols + i] /= sum;
-        }
+        my_softmax_exp(matrix, row, cols);
     }
 }
 

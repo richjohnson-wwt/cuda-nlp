@@ -26,9 +26,23 @@
     #define CHECK_ERROR(call) call
 #endif
 
-// Core mathematical operations that work on both CPU and GPU
-HD inline float softmax_exp(float x, float max_val) {
-    return expf(x - max_val);
+HD inline void my_softmax_exp(float *matrix, int row, int cols) {
+    float max_val = -1e20f;
+    for (int i = 0; i < cols; ++i) {
+        max_val = std::max(max_val, matrix[row * cols + i]);
+    }
+    
+    // Compute exponentials and sum
+    float sum = 0.0f;
+    for (int i = 0; i < cols; ++i) {
+        matrix[row * cols + i] = expf(matrix[row * cols + i] - max_val);
+        sum += matrix[row * cols + i];
+    }
+    
+    // Normalize
+    for (int i = 0; i < cols; ++i) {
+        matrix[row * cols + i] /= sum;
+    }
 }
 
 HD inline float matrix_multiply_element(const float *A, const float *B, int row, int col, int K, int N) {
@@ -41,6 +55,9 @@ HD inline float matrix_multiply_element(const float *A, const float *B, int row,
 
 // Public interface functions (same signature for both CPU and GPU)
 void matmul(const float *A, const float *B, float *C, int M, int N, int K);
+
+// Backward compatibility wrapper (for existing main.cu)
+void launch_matmul(const float *A, const float *B, float *C, int M, int N, int K);
 
 void softmax_2d(float *matrix, int rows, int cols);
 
