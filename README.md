@@ -14,11 +14,14 @@
 
 # Debug Config
 
-    conan install . --output-folder=build/Debug --build=missing --settings=build_type=Debug
-    cd build/Debug 
+    conan install . --output-folder=build/debug_cpu --build=missing --settings=build_type=Debug
+    conan install . --output-folder=build/debug_gpu --build=missing --settings=build_type=Debug
+    cd build/debug_cpu 
+    cd build/debug_gpu 
     
-    # All commands in build/Debug
-    cmake ../.. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug
+    # All commands in build/debug_cpu
+    cmake ../.. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_CUDA=OFF
+    cmake ../.. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_CUDA=ON
     cmake --build .
 
     Train the model with (input sentence) (target):
