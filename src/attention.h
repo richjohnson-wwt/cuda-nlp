@@ -29,7 +29,8 @@
 HD inline void my_softmax_exp(float *matrix, int row, int cols) {
     float max_val = -1e20f;
     for (int i = 0; i < cols; ++i) {
-        max_val = std::max(max_val, matrix[row * cols + i]);
+        float current_val = matrix[row * cols + i];
+        max_val = (current_val > max_val) ? current_val : max_val;
     }
     
     // Compute exponentials and sum
