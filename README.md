@@ -1,4 +1,7 @@
-# Intial Setup - Do every time a new VM is started
+## Overview
+This is a learning project that uses softmax, self-attention and matrix multiplication to train a little model to predict the next word in a sentence. It also explores a strategy for unit testing the code, using Conan package manager, and cross compiling for CPU-only or GPU.
+
+#### Intial Setup - Do every time a new VM is started
 
     uv venv
     source .venv/bin/activate
@@ -12,7 +15,7 @@
         name = Rich Johnson
 
 
-# Debug Config
+#### Debug Config
 
     conan install . --output-folder=build/Debug --build=missing --settings=build_type=Debug
     cd build/Debug 
